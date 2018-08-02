@@ -5,21 +5,38 @@ import { TaskStore } from "../../store";
 
 export const TaskListContainer = () => (
   <Subscribe to={[TaskStore]}>
-    {taskStore => <TaskList store={taskStore} />}
+    {taskStore => (
+      <TaskList {...taskStore.state} loadTasks={taskStore.loadTasks} />
+    )}
   </Subscribe>
 );
 
 export class TaskList extends React.Component {
+  static propTypes = {
+    tasks: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        isDone: PropTypes.bool
+      })
+    ),
+    isLoading: PropTypes.bool,
+    error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    loadTasks: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    tasks: [],
+    isLoading: false,
+    error: null
+  };
+
   componentDidMount() {
-    this.props.store.loadTasks();
+    this.props.loadTasks();
   }
 
   render() {
-    const {
-      store: {
-        state: { tasks, isLoading, error }
-      }
-    } = this.props;
+    const { tasks, isLoading, error } = this.props;
 
     if (isLoading) {
       return <p>Please wait ...</p>;
@@ -37,8 +54,3 @@ export class TaskList extends React.Component {
     );
   }
 }
-
-TaskList.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  store: PropTypes.object.isRequired
-};

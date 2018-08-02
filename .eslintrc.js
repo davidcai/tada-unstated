@@ -12,6 +12,7 @@ module.exports = {
   },
   rules: {
     "class-methods-use-this": OFF,
+    "consistent-return": OFF,
     "import/no-extraneous-dependencies": [
       ON,
       { devDependencies: ["server/**/*.js", "tools/**/*.js", "**/*.spec.js"] }

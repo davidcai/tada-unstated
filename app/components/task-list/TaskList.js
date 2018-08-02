@@ -2,27 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Subscribe } from "unstated";
 import { TaskStore } from "../../store";
+import { Task, TaskPropType } from "./Task";
 
 export const TaskListContainer = () => (
   <Subscribe to={[TaskStore]}>
     {taskStore => (
-      <TaskList {...taskStore.state} loadTasks={taskStore.loadTasks} />
+      <TaskList
+        {...taskStore.state}
+        loadTasks={taskStore.loadTasks}
+        updateTask={taskStore.updateTask}
+      />
     )}
   </Subscribe>
 );
 
 export class TaskList extends React.Component {
   static propTypes = {
-    tasks: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        isDone: PropTypes.bool
-      })
-    ),
+    tasks: PropTypes.arrayOf(TaskPropType),
     isLoading: PropTypes.bool,
     error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-    loadTasks: PropTypes.func.isRequired
+    loadTasks: PropTypes.func.isRequired,
+    updateTask: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -34,6 +34,13 @@ export class TaskList extends React.Component {
   componentDidMount() {
     this.props.loadTasks();
   }
+
+  handleToggle = task => {
+    this.props.updateTask({
+      ...task,
+      isDone: !task.isDone
+    });
+  };
 
   render() {
     const { tasks, isLoading, error } = this.props;
@@ -49,7 +56,11 @@ export class TaskList extends React.Component {
     return (
       <ul>
         {tasks &&
-          Object.keys(tasks).map(id => <li key={id}>{tasks[id].name}</li>)}
+          tasks.map(task => (
+            <li key={task.id}>
+              <Task task={task} onChange={() => this.handleToggle(task)} />
+            </li>
+          ))}
       </ul>
     );
   }

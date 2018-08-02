@@ -7,7 +7,8 @@
 		"build": "NODE_ENV=production webpack --config ./tools/webpack.config.js",
 		"lint": "eslint .",
 		"dev": "tools/server/start.js",
-		"start": "yarn build && NODE_ENV=production tools/server/start.js"
+		"start": "yarn build && NODE_ENV=production tools/server/start.js",
+		"test": "jest --coverage"
 	},
 	"author": "Wenjuan (David) Cai",
 	"license": "ISC",
@@ -34,6 +35,9 @@
 		"babel-preset-react": "^6.24.1",
 		"colors": "^1.3.0",
 		"connect-history-api-fallback": "^1.5.0",
+		"enzyme": "^3.3.0",
+		"enzyme-adapter-react-16": "^1.1.1",
+		"enzyme-to-json": "^3.3.4",
 		"eslint": "^4.19.0",
 		"eslint-config-airbnb": "^16.1.0",
 		"eslint-config-prettier": "^2.9.0",
@@ -43,6 +47,7 @@
 		"eslint-plugin-react": "^7.10.0",
 		"express": "^4.16.3",
 		"html-webpack-plugin": "^3.2.0",
+		"jest": "^23.4.2",
 		"json-server": "^0.14.0",
 		"prettier": "^1.13.6",
 		"shelljs": "^0.8.2",
@@ -51,5 +56,22 @@
 		"webpack-dev-middleware": "^3.1.3",
 		"webpack-hot-middleware": "^2.22.2",
 		"yargs": "^11.0.0"
+	},
+	"jest": {
+    "collectCoverageFrom": [
+      "app/**/*.js"
+    ],
+		"coverageReporters": [
+			"json",
+      "html",
+      "lcov",
+      "text"
+		],
+		"setupTestFrameworkScriptFile": "<rootDir>/tools/jest-setup.js",
+		"snapshotSerializers": [
+			"enzyme-to-json/serializer"
+		],
+		"testRegex": "app/.*(\\.|/)(spec|test)\\.js$",
+		"testURL": "http://localhost/"
 	}
 }

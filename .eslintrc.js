@@ -8,7 +8,8 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
-    node: true
+    node: true,
+    jest: true
   },
   rules: {
     "class-methods-use-this": OFF,

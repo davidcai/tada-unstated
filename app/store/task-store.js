@@ -17,7 +17,8 @@ export class TaskStore extends Container {
       .then(res => {
         this.setState({
           tasks: res.data,
-          isLoading: false
+          isLoading: false,
+          error: null
         });
       })
       .catch(error => {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Subscribe } from "unstated";
-import { TaskStore } from "../store";
+import { TaskStore } from "../../store";
 
 export const TaskListContainer = () => (
   <Subscribe to={[TaskStore]}>
@@ -9,20 +9,24 @@ export const TaskListContainer = () => (
   </Subscribe>
 );
 
-export class TaskList extends React.PureComponent {
+export class TaskList extends React.Component {
   componentDidMount() {
     this.props.store.loadTasks();
   }
 
   render() {
-    const { state: { tasks, isLoading, error } } = this.props.store;
+    const {
+      store: {
+        state: { tasks, isLoading, error }
+      }
+    } = this.props;
 
     if (isLoading) {
       return <p>Please wait ...</p>;
     }
 
     if (error) {
-      return <p>{ error.message }</p>
+      return <p>{error.message}</p>;
     }
 
     return (
@@ -35,5 +39,6 @@ export class TaskList extends React.PureComponent {
 }
 
 TaskList.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   store: PropTypes.object.isRequired
 };

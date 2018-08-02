@@ -12,7 +12,6 @@ module.exports = {
     // Hot Module Reloading (HMR) is tricky to set up. To simplify things,
     // in development mode, we use HMR but only to reload the entire page.
     isDevelopment() ? "webpack-hot-middleware/client?reload=true" : null,
-    isDevelopment() ? "./dev.js" : null,
     "./index.js"
   ].filter(Boolean),
 

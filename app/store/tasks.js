@@ -17,16 +17,16 @@ export class TaskStore extends Container {
         .get("http://localhost:3000/tasks")
         .then(res => {
           this.setState({
-            isLoading: false,
-            tasks: res.data
+            tasks: res.data,
+            isLoading: false
           });
         })
         .catch(err => {
           this.setState({
             isLoading: false,
             error: err
-          })
+          });
         });
     }, 1000);
-  }
+  };
 }

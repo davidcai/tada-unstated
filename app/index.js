@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from "unstated";
 import { TaskListContainer } from "./components/task-list";
+import "./store";
 
 const App = () => (
   <Provider>
